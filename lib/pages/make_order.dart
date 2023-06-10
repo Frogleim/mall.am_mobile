@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:ontime/model/add_to_cart.dart';
 import 'package:ontime/model/check_cart.dart';
 import 'package:ontime/pages/cart.dart';
@@ -77,103 +78,138 @@ class _MakeOrderState extends State<MakeOrder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: [
-        Positioned(
-            top: 50,
-            left: 20,
-            child: Text(
-              widget.productName as String,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-            )),
-        Positioned(
-          top: 100,
-          left: 20,
-          right: 20,
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.black)),
-            height: 460,
-            width: 200,
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(widget.productImage as String)),
-          ),
-        ),
-        Positioned(
-            right: 30,
-            top: 570,
-            child: Row(
-              children: [
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        if (itemCount > 1) {
-                          itemCount--;
-                        }
-                      });
-                    },
-                    icon: Icon(Icons.remove)),
-                Text(
-                  itemCount.toString(),
-                  style: TextStyle(fontSize: 18),
-                ),
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        itemCount++;
-                      });
-                    },
-                    icon: Icon(Icons.add)),
-                const SizedBox(
-                  width: 20,
-                ),
-              ],
-            )),
-        Positioned(
-            bottom: 100,
-            left: 20,
-            right: 20,
-            child: ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.black)),
-              child: Text("Add to Cart "),
-              onPressed: () {
-                print("Buy");
-                addtoCart();
-                setState(() {
-                  cartItemAdded = true;
-                });
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          iconTheme: const IconThemeData(color: Colors.black),
+          actions: [
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const Cart()));
               },
-            )),
-        Positioned(
-            bottom: 50,
-            right: 20,
-            child: CircleAvatar(
-              backgroundColor: Colors.black,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Cart()));
-                },
-                child: const Icon(
-                  Icons.shopping_cart,
-                  color: Colors.white,
-                ),
-              ),
-            )),
-        if (cartItemAdded || checkCart(getEmail() as String) != 'null')
-          Positioned(
-              bottom: 50,
-              right: 18,
+              child: const Icon(Icons.shopping_basket_outlined),
+            ),
+            const SizedBox(
+              width: 20,
+            )
+          ],
+        ),
+        body: Stack(
+          children: [
+            Positioned(
+              top: 10,
+              left: 0,
+              right: 0,
               child: Container(
-                width: 10,
-                height: 10,
-                decoration: const BoxDecoration(
-                    color: Colors.red, shape: BoxShape.circle),
-              ))
-      ],
-    ));
+                height: 400,
+                width: 200,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(widget.productImage as String)),
+              ),
+            ),
+            Positioned(
+                top: 500,
+                left: 20,
+                child: Text(
+                  widget.productName,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                )),
+            Positioned(
+                right: 30,
+                top: 540,
+                child: Container(
+                  height: 35,
+                  width: 117,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Color.fromARGB(255, 211, 209, 209)),
+                  child: Row(
+                    children: [
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            setState(() {
+                              if (itemCount > 1) {
+                                itemCount--;
+                              }
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.remove,
+                            size: 15,
+                          )),
+                      Text(
+                        itemCount.toString(),
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            setState(() {
+                              itemCount++;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.add,
+                            size: 15,
+                          )),
+                    ],
+                  ),
+                )),
+            Positioned(
+                top: 540,
+                left: 10,
+                child: RatingBar.builder(
+                    initialRating: 3,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    itemCount: 5,
+                    itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+                    itemSize: 25,
+                    itemBuilder: (context, _) => const Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                    onRatingUpdate: (rating) {
+                      print(rating);
+                    })),
+            Positioned(
+                bottom: 50,
+                right: 20,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20))),
+                      fixedSize: MaterialStateProperty.all(Size(180, 50)),
+                      backgroundColor: MaterialStateProperty.all(Colors.black)),
+                  child: Text("Add to Cart "),
+                  onPressed: () {
+                    print("Buy");
+                    addtoCart();
+                    setState(() {
+                      cartItemAdded = true;
+                    });
+                  },
+                )),
+            const Positioned(
+                bottom: 90,
+                left: 20,
+                child: Text(
+                  'Total Price',
+                  style: TextStyle(color: Colors.grey),
+                )),
+            Positioned(
+                bottom: 50,
+                left: 20,
+                child: Text(
+                  '\$${widget.productPrice}',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                )),
+          ],
+        ));
   }
 }
