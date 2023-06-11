@@ -52,73 +52,79 @@ class _CartState extends State<Cart> {
                   'My Cart',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23.5),
                 )),
-            Positioned.fill(
-              top: 80,
-              child: Card(
-                child: FutureBuilder(
-                  future: cart(getEmail()),
-                  builder: (context, snapshot) {
-                    if (snapshot.data == null) {
-                      return const Center(
-                        child: Text("Your Cart is empty"),
-                      );
-                    } else {
-                      return Expanded(
-                          child: ListView.builder(
-                              itemBuilder: (context, index) {
-                                var product_name =
-                                    snapshot.data[index].product_name;
-                                var product_price =
-                                    snapshot.data[index].product_price;
-                                var product_image =
-                                    snapshot.data[index].product_image;
-                                return Center(
-                                    child: Card(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      ListTile(
-                                        leading: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                          child: Image.network(product_image),
-                                        ),
-                                        title: Text(
-                                          product_name,
-                                        ),
-                                        subtitle: Text(
-                                          product_price,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black,
-                                              fontSize: 15),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
+            Positioned(
+                top: 50,
+                child: Container(
+                  height: 500,
+                  width: 400,
+                  child: Card(
+                    child: FutureBuilder(
+                      future: cart(getEmail()),
+                      builder: (context, snapshot) {
+                        if (snapshot.data == null) {
+                          return const Center(
+                            child: Text("Your Cart is empty"),
+                          );
+                        } else {
+                          return Expanded(
+                              child: ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    var product_name =
+                                        snapshot.data[index].product_name;
+                                    var product_price =
+                                        snapshot.data[index].product_price;
+                                    var product_image =
+                                        snapshot.data[index].product_image;
+                                    return Center(
+                                        child: Card(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              print('Trash');
-                                            },
-                                            child: Icon(Icons.delete),
+                                          ListTile(
+                                            leading: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              child:
+                                                  Image.network(product_image),
+                                            ),
+                                            title: Text(
+                                              product_name,
+                                            ),
+                                            subtitle: Text(
+                                              product_price,
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                  fontSize: 15),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  print('Trash');
+                                                },
+                                                child: Icon(Icons.delete),
+                                              )
+                                            ],
                                           )
                                         ],
-                                      )
-                                    ],
-                                  ),
-                                ));
-                              },
-                              itemCount: snapshot.data.length));
-                    }
-                  },
-                ),
-              ),
-            ),
+                                      ),
+                                    ));
+                                  },
+                                  itemCount: snapshot.data.length));
+                        }
+                      },
+                    ),
+                  ),
+                )),
             const Positioned(
                 bottom: 100,
                 left: 20,
@@ -145,12 +151,9 @@ class _CartState extends State<Cart> {
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
-                  onPressed: () {
-                    print('Hello');
-                    getPrice();
-                  },
+                  onPressed: () {},
                   child: const Text(
-                    'Proceed to Chekcout',
+                    'Proceed to Checkout',
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

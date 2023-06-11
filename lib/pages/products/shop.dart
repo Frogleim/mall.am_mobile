@@ -87,10 +87,13 @@ class _EShopState extends State<EShop> {
                                     ClipRRect(
                                       child: Image.network(
                                         image,
-                                        height: 130,
+                                        height: 100,
                                         width: 130,
                                       ),
                                       borderRadius: BorderRadius.circular(18),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
                                     ),
                                     Text(
                                       name.split(' ')[0],

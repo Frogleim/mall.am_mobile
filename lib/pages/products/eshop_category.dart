@@ -73,7 +73,7 @@ class _ShopCategoryState extends State<ShopCategory> {
                               fontSize: 16),
                         ),
                         SizedBox(
-                          width: 100,
+                          width: 80,
                         ),
                         Text(
                           '10 Products',
@@ -118,7 +118,7 @@ class _ShopCategoryState extends State<ShopCategory> {
                               fontSize: 16),
                         ),
                         SizedBox(
-                          width: 120,
+                          width: 90,
                         ),
                         Text(
                           '10 Products',
@@ -164,7 +164,7 @@ class _ShopCategoryState extends State<ShopCategory> {
                               fontSize: 16),
                         ),
                         SizedBox(
-                          width: 100,
+                          width: 60,
                         ),
                         Text(
                           '10 Products',
@@ -210,7 +210,7 @@ class _ShopCategoryState extends State<ShopCategory> {
                               fontSize: 16),
                         ),
                         SizedBox(
-                          width: 70,
+                          width: 50,
                         ),
                         Text(
                           '10 Products',

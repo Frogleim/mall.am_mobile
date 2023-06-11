@@ -24,6 +24,7 @@ class MakeOrder extends StatefulWidget {
 
 class _MakeOrderState extends State<MakeOrder> {
   bool cartItemAdded = false;
+  bool isLiked = false;
   int itemCount = 1;
   DateTime? selectedDate;
   TimeOfDay? selctedTime;
@@ -32,6 +33,12 @@ class _MakeOrderState extends State<MakeOrder> {
     User? user = FirebaseAuth.instance.currentUser;
     String userEmail = user?.email ?? '';
     return userEmail;
+  }
+
+  void toggleFavorite() {
+    setState(() {
+      isLiked = !isLiked;
+    });
   }
 
   Future<void> addtoCart() async {
@@ -211,8 +218,22 @@ class _MakeOrderState extends State<MakeOrder> {
                 left: 20,
                 child: Text(
                   '\$${widget.productPrice}',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 30),
                 )),
+            Positioned(
+                bottom: 230,
+                right: 20,
+                child: InkWell(
+                  onTap: toggleFavorite,
+                  splashColor: Colors.red,
+                  highlightColor: Colors.transparent,
+                  child: Icon(
+                    isLiked ? Icons.favorite : Icons.favorite_border,
+                    color: isLiked ? Colors.red : Colors.black,
+                    size: 28,
+                  ),
+                ))
           ],
         ));
   }

@@ -21,6 +21,12 @@ class _HomePageState extends State<HomePage> {
     return userEmail;
   }
 
+  void toggleFavorite() {
+    setState(() {
+      isStarred = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
