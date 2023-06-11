@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ontime/model/check_cart.dart';
 import 'package:ontime/pages/account.dart';
 import 'package:ontime/pages/cart.dart';
 import 'package:ontime/pages/products/coffee_house.dart';
@@ -26,19 +25,29 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          iconTheme: const IconThemeData(color: Colors.black),
+          leading: GestureDetector(
+            onTap: () {
+              FirebaseAuth.instance.signOut();
+            },
+            child: Icon(Icons.logout),
+          ),
           actions: [
             GestureDetector(
               onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Account()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const Account()));
               },
-              child: const CircleAvatar(
-                backgroundImage: NetworkImage(
-                    "https://i.pinimg.com/564x/a7/da/a4/a7daa4792ad9e6dc5174069137f210df.jpg"),
-              ),
+              child: CircleAvatar(
+                  child: Image.network(
+                      'https://i.pinimg.com/564x/a7/da/a4/a7daa4792ad9e6dc5174069137f210df.jpg')),
+            ),
+            const SizedBox(
+              width: 20,
             )
           ],
-          backgroundColor: Colors.black,
         ),
         body: Stack(
           children: [
@@ -46,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                 top: 100,
                 left: 20,
                 child: Text(
-                  "Welcome",
+                  "Brands",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                 )),
             Positioned(
@@ -62,16 +71,6 @@ class _HomePageState extends State<HomePage> {
                     Icons.shopping_cart,
                   ),
                 )),
-            if (checkCart(getEmail() as String) != 'null')
-              Positioned(
-                  top: 100,
-                  right: 18,
-                  child: Container(
-                    width: 10,
-                    height: 10,
-                    decoration: const BoxDecoration(
-                        color: Colors.red, shape: BoxShape.circle),
-                  )),
             Positioned(
                 top: 150,
                 left: 20,

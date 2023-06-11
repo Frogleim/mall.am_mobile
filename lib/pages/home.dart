@@ -1,5 +1,5 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:ontime/pages/account.dart';
 import 'package:ontime/pages/cards_pages/add_card.dart';
 import 'package:ontime/pages/home_page.dart';
@@ -29,26 +29,28 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      bottomNavigationBar: CurvedNavigationBar(
+      bottomNavigationBar: GNav(
+        gap: 8,
+        hoverColor: Colors.grey[100]!,
+        rippleColor: Colors.grey[300]!,
+        tabBackgroundColor: Colors.grey[100]!,
         color: Colors.black,
-        buttonBackgroundColor: Colors.black,
-        height: 60,
         backgroundColor: Colors.transparent,
-        items: const [
-          Icon(
-            Icons.home_filled,
-            color: Colors.white,
+        tabs: const [
+          GButton(
+            icon: Icons.home_filled,
+            text: 'Home',
           ),
-          Icon(
-            Icons.wallet,
-            color: Colors.white,
+          GButton(
+            icon: Icons.wallet,
+            text: 'Wallet',
           ),
-          Icon(
-            Icons.person,
-            color: Colors.white,
-          )
+          GButton(
+            icon: Icons.people,
+            text: 'Account',
+          ),
         ],
-        onTap: _onItemTapped,
+        onTabChange: _onItemTapped,
       ),
       body: Container(
         child: _widgetOptions.elementAt(_selectedIndex),

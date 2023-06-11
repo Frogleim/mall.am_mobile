@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:ontime/model/add_to_cart.dart';
-import 'package:ontime/model/check_cart.dart';
 import 'package:ontime/pages/cart.dart';
 
 class MakeOrder extends StatefulWidget {
@@ -110,10 +109,11 @@ class _MakeOrderState extends State<MakeOrder> {
               ),
             ),
             Positioned(
-                top: 500,
+                top: 440,
                 left: 20,
                 child: Text(
-                  widget.productName,
+                  widget.productName.replaceAllMapped(
+                      RegExp(r"(\S+\s+){3}"), (match) => '${match.group(0)}\n'),
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                 )),
             Positioned(
@@ -124,7 +124,7 @@ class _MakeOrderState extends State<MakeOrder> {
                   width: 117,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
-                      color: Color.fromARGB(255, 211, 209, 209)),
+                      color: Color.fromARGB(255, 209, 209, 209)),
                   child: Row(
                     children: [
                       const SizedBox(
@@ -163,7 +163,7 @@ class _MakeOrderState extends State<MakeOrder> {
                 top: 540,
                 left: 10,
                 child: RatingBar.builder(
-                    initialRating: 3,
+                    initialRating: 1,
                     minRating: 1,
                     direction: Axis.horizontal,
                     itemCount: 5,
@@ -186,7 +186,11 @@ class _MakeOrderState extends State<MakeOrder> {
                               borderRadius: BorderRadius.circular(20))),
                       fixedSize: MaterialStateProperty.all(Size(180, 50)),
                       backgroundColor: MaterialStateProperty.all(Colors.black)),
-                  child: Text("Add to Cart "),
+                  child: const Text(
+                    "Add to Cart",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16.5),
+                  ),
                   onPressed: () {
                     print("Buy");
                     addtoCart();
