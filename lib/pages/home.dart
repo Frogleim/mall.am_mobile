@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:ontime/pages/account.dart';
-import 'package:ontime/pages/cards_pages/add_card.dart';
+import 'package:ontime/pages/cards_pages/wallet.dart';
 import 'package:ontime/pages/home_page.dart';
 
 class Home extends StatefulWidget {
