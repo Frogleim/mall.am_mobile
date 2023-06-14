@@ -2,30 +2,24 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CardInformation {
-  final int id;
   final String customer_email;
   final String card_holder_name;
-  final String card_type;
   final String card_number;
   final String date;
   final String cvv;
 
   CardInformation(
-      {required this.id,
-      required this.customer_email,
+      {required this.customer_email,
       required this.card_holder_name,
-      required this.card_type,
       required this.card_number,
       required this.date,
       required this.cvv});
   factory CardInformation.fromJson(Map<String, dynamic> json) {
     return CardInformation(
-        id: json['id'],
-        customer_email: json['title'],
-        card_holder_name: json['price'],
-        card_type: json['category'],
-        card_number: json['description'],
-        date: json['image'],
+        customer_email: json['customer_email'],
+        card_holder_name: json['card_holder_name'],
+        card_number: json['card_number'],
+        date: json['date'],
         cvv: json['cvv']);
   }
 }
@@ -36,15 +30,21 @@ Future getCardData(String customer_email) async {
 
   var jsonData = jsonDecode(response.body);
 
+  if (response.statusCode == 200) {
+    // Request successful, handle the response
+    print('Response: ${response.body}');
+  } else {
+    // Request failed, handle the error
+    print('Error: ${response.statusCode}');
+  }
+
   List<CardInformation> cardData = [];
   for (var items in jsonData) {
     CardInformation card = CardInformation(
-        id: items['id'],
-        customer_email: items['title'],
-        card_holder_name: items['price'].toString(),
-        card_type: items['category'],
-        card_number: items['description'],
-        date: items['image'],
+        customer_email: items['customer_email'],
+        card_holder_name: items['card_holder_name'].toString(),
+        card_number: items['card_number'],
+        date: items['date'],
         cvv: items['cvv']);
     cardData.add(card);
   }

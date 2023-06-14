@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ontime/pages/home.dart';
 import 'package:sign_button/constants.dart';
 import 'package:sign_button/create_button.dart';
@@ -31,6 +32,7 @@ class _LoginState extends State<Login> {
             idToken: googleAuth.idToken,
           );
           await FirebaseAuth.instance.signInWithCredential(credential);
+          // ignore: use_build_context_synchronously
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => const Home()),
           );
@@ -65,14 +67,15 @@ class _LoginState extends State<Login> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               const SizedBox(
-                height: 100,
+                height: 30,
               ),
               Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.only(left: 30, top: 40),
-                child: const Text(
-                  "Login",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                padding: const EdgeInsets.only(left: 30, right: 30, top: 10),
+                child: Center(
+                  child: Lottie.network(
+                      "https://assets9.lottiefiles.com/packages/lf20_nc1bp7st.json",
+                      height: 250,
+                      width: 200),
                 ),
               ),
               const SizedBox(
@@ -80,11 +83,14 @@ class _LoginState extends State<Login> {
               ),
               Container(
                 alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.all(30.0),
+                padding: const EdgeInsets.only(left: 30, top: 10),
                 child: const Text(
-                  "Enter your email and password",
-                  style: TextStyle(fontSize: 13),
+                  "Login",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
+              ),
+              const SizedBox(
+                height: 25,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -143,20 +149,20 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     GestureDetector(
-                      child: Text("Forgot Password?"),
+                      child: const Text("Forgot Password?"),
                       onTap: () {
                         print("Forgot password");
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 120,
                     ),
                   ],
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(25),
-                margin: EdgeInsets.symmetric(horizontal: 25),
+                padding: const EdgeInsets.all(25),
+                margin: const EdgeInsets.symmetric(horizontal: 25),
                 width: double.infinity,
                 child: RawMaterialButton(
                   onPressed: signIn,

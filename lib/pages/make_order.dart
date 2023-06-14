@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ontime/model/add_to_cart.dart';
 import 'package:ontime/pages/cart.dart';
 
@@ -22,7 +23,10 @@ class MakeOrder extends StatefulWidget {
   State<MakeOrder> createState() => _MakeOrderState();
 }
 
-class _MakeOrderState extends State<MakeOrder> {
+class _MakeOrderState extends State<MakeOrder>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
   bool cartItemAdded = false;
   bool isLiked = false;
   int itemCount = 1;
@@ -39,6 +43,19 @@ class _MakeOrderState extends State<MakeOrder> {
     setState(() {
       isLiked = !isLiked;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        AnimationController(duration: Duration(seconds: 2), vsync: this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 
   Future<void> addtoCart() async {
@@ -222,17 +239,23 @@ class _MakeOrderState extends State<MakeOrder> {
                       fontWeight: FontWeight.bold, fontSize: 30),
                 )),
             Positioned(
-                bottom: 230,
+                bottom: 200,
                 right: 20,
-                child: InkWell(
-                  onTap: toggleFavorite,
-                  splashColor: Colors.red,
-                  highlightColor: Colors.transparent,
-                  child: Icon(
-                    isLiked ? Icons.favorite : Icons.favorite_border,
-                    color: isLiked ? Colors.red : Colors.black,
-                    size: 28,
-                  ),
+                child: GestureDetector(
+                  onTap: () {
+                    if (isLiked == false) {
+                      isLiked == true;
+                      _controller.forward();
+                    } else {
+                      isLiked == false;
+                      _controller.reverse();
+                    }
+                  },
+                  child: Lottie.network(
+                      "https://assets4.lottiefiles.com/packages/lf20_lwojhyyk.json",
+                      controller: _controller,
+                      width: 80,
+                      height: 80),
                 ))
           ],
         ));

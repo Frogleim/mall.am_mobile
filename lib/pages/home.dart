@@ -15,7 +15,7 @@ class _HomeState extends State<Home> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    AddCard(),
+    Wallet(),
     Account(),
   ];
 
