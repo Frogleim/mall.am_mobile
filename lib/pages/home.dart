@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:ontime/pages/account.dart';
-import 'package:ontime/pages/cards_pages/wallet.dart';
+import 'package:ontime/pages/account_pages/account.dart';
+import 'package:ontime/pages/cart.dart';
 import 'package:ontime/pages/home_page.dart';
 
 class Home extends StatefulWidget {
@@ -15,7 +15,7 @@ class _HomeState extends State<Home> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    Wallet(),
+    Cart(),
     Account(),
   ];
 
@@ -42,11 +42,11 @@ class _HomeState extends State<Home> {
             text: 'Home',
           ),
           GButton(
-            icon: Icons.wallet,
-            text: 'Wallet',
+            icon: Icons.shopping_cart,
+            text: 'My Cart',
           ),
           GButton(
-            icon: Icons.people,
+            icon: Icons.person,
             text: 'Account',
           ),
         ],

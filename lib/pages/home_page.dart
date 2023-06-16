@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ontime/pages/account.dart';
-import 'package:ontime/pages/cart.dart';
+import 'package:ontime/image_provider.dart';
+import 'package:ontime/pages/account_pages/account.dart';
 import 'package:ontime/pages/products/coffee_house.dart';
 import 'package:ontime/pages/products/eshop_category.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,6 +30,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    ImageProvide imageProvider = Provider.of<ImageProvide>(context);
+
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -42,14 +45,17 @@ class _HomePageState extends State<HomePage> {
           ),
           actions: [
             GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const Account()));
-              },
-              child: CircleAvatar(
-                  child: Image.network(
-                      'https://i.pinimg.com/564x/a7/da/a4/a7daa4792ad9e6dc5174069137f210df.jpg')),
-            ),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const Account()));
+                },
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 20,
+                  backgroundImage: NetworkImage(
+                    imageProvider.imageUrl,
+                  ),
+                )),
             const SizedBox(
               width: 20,
             )
@@ -63,19 +69,6 @@ class _HomePageState extends State<HomePage> {
                 child: Text(
                   "Brands",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                )),
-            Positioned(
-                top: 100,
-                right: 20,
-                child: GestureDetector(
-                  onTap: () {
-                    print("Cart");
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => Cart()));
-                  },
-                  child: const Icon(
-                    Icons.shopping_cart,
-                  ),
                 )),
             Positioned(
                 top: 150,

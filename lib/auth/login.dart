@@ -39,7 +39,7 @@ class _LoginState extends State<Login> {
         }
       }
     } on PlatformException catch (e) {
-      print("The user is not signed in yet. Asking to sign in.");
+      print("The user is not signed in yet. Asking to sign in. $e");
     }
   }
 

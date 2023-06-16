@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ontime/image_provider.dart';
 import 'package:ontime/model/cart.dart';
+import 'package:provider/provider.dart';
 
 class Cart extends StatefulWidget {
   const Cart({super.key});
@@ -16,13 +18,10 @@ class _CartState extends State<Cart> {
     return userEmail;
   }
 
-  void getPrice() async {
-    var email = getEmail();
-    var data = cart(email);
-  }
-
   @override
   Widget build(BuildContext context) {
+    ImageProvide imageProvider = Provider.of<ImageProvide>(context);
+
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -30,14 +29,17 @@ class _CartState extends State<Cart> {
           iconTheme: const IconThemeData(color: Colors.black),
           actions: [
             GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const Cart()));
-              },
-              child: CircleAvatar(
-                  child: Image.network(
-                      'https://i.pinimg.com/564x/a7/da/a4/a7daa4792ad9e6dc5174069137f210df.jpg')),
-            ),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const Cart()));
+                },
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 20,
+                  backgroundImage: NetworkImage(
+                    imageProvider.imageUrl,
+                  ),
+                )),
             const SizedBox(
               width: 20,
             )
@@ -61,7 +63,7 @@ class _CartState extends State<Cart> {
                     child: FutureBuilder(
                       future: cart(getEmail()),
                       builder: (context, snapshot) {
-                        if (snapshot.data == null) {
+                        if (snapshot.data == null || snapshot.data.isEmpty) {
                           return const Center(
                             child: Text("Your Cart is empty"),
                           );
@@ -126,7 +128,7 @@ class _CartState extends State<Cart> {
                   ),
                 )),
             const Positioned(
-                bottom: 100,
+                bottom: 180,
                 left: 20,
                 child: Text(
                   'Total: ',
@@ -143,7 +145,7 @@ class _CartState extends State<Cart> {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
                 )),
             Positioned(
-                bottom: 20,
+                bottom: 100,
                 left: 10,
                 right: 10,
                 child: RawMaterialButton(
