@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ontime/image_provider.dart';
 import 'package:ontime/model/cart.dart';
+import 'package:ontime/pages/checkout_pages/checkout.dart';
 import 'package:provider/provider.dart';
 
 class Cart extends StatefulWidget {
@@ -68,7 +69,7 @@ class _CartState extends State<Cart> {
                             child: Text("Your Cart is empty"),
                           );
                         } else {
-                          return Expanded(
+                          return Container(
                               child: ListView.builder(
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
@@ -95,7 +96,7 @@ class _CartState extends State<Cart> {
                                               product_name,
                                             ),
                                             subtitle: Text(
-                                              product_price,
+                                              '\$${product_price}',
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.black,
@@ -153,7 +154,10 @@ class _CartState extends State<Cart> {
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const Checkout()));
+                  },
                   child: const Text(
                     'Proceed to Checkout',
                     style: TextStyle(

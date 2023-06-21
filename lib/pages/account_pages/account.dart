@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ontime/pages/account_pages/address.dart';
 import 'package:ontime/pages/cards_pages/wallet.dart';
 import 'package:provider/provider.dart';
 
@@ -272,10 +273,16 @@ class _AccountState extends State<Account> {
                         const SizedBox(
                           width: 15,
                         ),
-                        const Text(
-                          "Shipping Address",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const AddressPage()));
+                          },
+                          child: const Text(
+                            "Shipping Address",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
                         ),
                         const SizedBox(
                           width: 77,

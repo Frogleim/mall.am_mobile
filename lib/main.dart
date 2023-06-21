@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:ontime/check_login.dart';
 import 'package:ontime/image_provider.dart';
 import 'package:provider/provider.dart';
-// import 'package:ontime/check_login.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,12 +11,11 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => ImageProvide(),
-      child: MaterialApp(
+      child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Mall.am',
         home: MainPage(),

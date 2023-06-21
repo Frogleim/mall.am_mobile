@@ -39,7 +39,8 @@ class _HomePageState extends State<HomePage> {
           iconTheme: const IconThemeData(color: Colors.black),
           leading: GestureDetector(
             onTap: () {
-              FirebaseAuth.instance.signOut();
+              // FirebaseAuth.instance.signOut();
+              print(imageProvider.imageUrl);
             },
             child: Icon(Icons.logout),
           ),
