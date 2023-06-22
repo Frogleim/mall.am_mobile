@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
 import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
-import 'package:ontime/model/add_credit_card.dart';
+import 'package:ontime/model/credit_cards_models.dart/add_credit_card.dart';
 import 'package:ontime/pages/account_pages/account.dart';
 import 'package:ontime/pages/cards_pages/wallet.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const String apiKey = '';
+const String apiKey = 'AIzaSyD_4Quaad6a5-ULGV0t0l8ZFZoz-b4aY1E';
 const defaultPadding = 16.0;
 const Color primaryColor = Color(0xFF006491);
 const Color textColorLightTheme = Color(0xFF0D0D0E);

@@ -1,10 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_place/google_place.dart';
 import 'package:ontime/model/constants.dart';
+import 'package:ontime/pages/account_pages/address/address.dart';
 
 class AddressPage extends StatefulWidget {
   const AddressPage({super.key});
@@ -74,23 +74,34 @@ class _AddressPageState extends State<AddressPage> {
   }
 
   Future<Position> getCurrentLocation() async {
-    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error("Location services are disabled");
-    }
-
-    LocationPermission premissions = await Geolocator.checkPermission();
-    if (premissions == LocationPermission.denied) {
-      premissions = await Geolocator.requestPermission();
-      if (premissions == LocationPermission.denied) {
-        return Future.error("Location Premissions are denied");
+    try {
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        throw Exception("Location services are disabled");
       }
+
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          throw Exception("Location permissions are denied");
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        throw Exception(
+            "Location permissions are permanently denied, we cannot send requests");
+      }
+
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      return position;
+    } catch (e) {
+      print('Error: $e');
+      return Future.error(e.toString());
     }
-    if (premissions == LocationPermission.deniedForever) {
-      return Future.error(
-          "Location premissions are permanently denied, we cannot send requests");
-    }
-    return await Geolocator.getCurrentPosition();
   }
 
   Future<String> getAddressFromCoordinates(
@@ -171,8 +182,16 @@ class _AddressPageState extends State<AddressPage> {
                     lon = '${value.longitude}';
                     setState(() {
                       locationMessage = 'Latitude: $lat, Longitude: $lon';
+                      print(lat);
+                      print(lon);
                       getAddressFromCoordinates(
-                          double.parse(lat), double.parse(lon));
+                              double.parse(lat), double.parse(lon))
+                          .then((address) {
+                        print(address);
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                MyAddress(myAddress: address)));
+                      });
                     });
                     _livLocation();
                   });
@@ -225,10 +244,10 @@ class _AddressPageState extends State<AddressPage> {
                     },
                   );
                 }),
-            SizedBox(
-              height: 100,
-            ),
-            Text('Your address: $address'),
+            // SizedBox(
+            //   height: 100,
+            // ),
+            // Text('Your address: $address'),
           ],
         ),
       ),

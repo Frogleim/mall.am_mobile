@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ontime/pages/account_pages/address.dart';
+import 'package:ontime/pages/account_pages/address/select_address.dart';
 import 'package:ontime/pages/cards_pages/wallet.dart';
 import 'package:provider/provider.dart';
 

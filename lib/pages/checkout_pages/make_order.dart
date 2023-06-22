@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lottie/lottie.dart';
-import 'package:ontime/model/add_to_cart.dart';
+import 'package:ontime/model/cart_models/add_to_cart.dart';
 import 'package:ontime/pages/cart.dart';
 
 class MakeOrder extends StatefulWidget {
