@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:lottie/lottie.dart';
-import 'package:ontime/model/credit_cards_models.dart/card_information.dart';
+import 'package:ontime/models/credit_cards_models.dart/card_information.dart';
 import 'package:ontime/pages/cards_pages/add_credit_card.dart';
 
 class Wallet extends StatefulWidget {

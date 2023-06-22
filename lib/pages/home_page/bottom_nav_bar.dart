@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:ontime/pages/account_pages/account.dart';
-import 'package:ontime/pages/cart.dart';
-import 'package:ontime/pages/home_page.dart';
+import 'package:ontime/pages/cart/cart.dart';
+import 'package:ontime/pages/home_page/home_page.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

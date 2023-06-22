@@ -7,7 +7,7 @@ import 'package:ontime/pages/account_pages/address/select_address.dart';
 import 'package:ontime/pages/cards_pages/wallet.dart';
 import 'package:provider/provider.dart';
 
-import '../../image_provider.dart';
+import '../../models/image_provider/image_provider.dart';
 
 class Account extends StatefulWidget {
   const Account({super.key});

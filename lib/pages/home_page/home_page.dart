@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ontime/image_provider.dart';
+import 'package:ontime/models/image_provider/image_provider.dart';
 import 'package:ontime/pages/account_pages/account.dart';
 import 'package:ontime/pages/products/coffee_house.dart';
 import 'package:ontime/pages/products/eshop_category.dart';

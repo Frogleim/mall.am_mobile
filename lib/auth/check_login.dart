@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ontime/auth/login.dart';
-import 'package:ontime/pages/home.dart';
+import 'package:ontime/pages/home_page/bottom_nav_bar.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

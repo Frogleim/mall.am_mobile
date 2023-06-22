@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ontime/pages/cart.dart';
+import 'package:ontime/pages/cart/cart.dart';
 import 'package:ontime/pages/products/shop.dart';
 
 class ShopCategory extends StatefulWidget {

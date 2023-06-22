@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ontime/image_provider.dart';
-import 'package:ontime/model/cart_models/cart.dart';
+import 'package:ontime/models/image_provider/image_provider.dart';
+import 'package:ontime/models/cart_models/cart.dart';
 import 'package:ontime/pages/checkout_pages/checkout.dart';
 import 'package:provider/provider.dart';
 

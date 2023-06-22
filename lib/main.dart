@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:ontime/check_login.dart';
-import 'package:ontime/image_provider.dart';
+import 'package:ontime/auth/check_login.dart';
+import 'package:ontime/models/image_provider/image_provider.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {

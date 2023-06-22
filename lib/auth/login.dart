@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lottie/lottie.dart';
-import 'package:ontime/pages/home.dart';
+import 'package:ontime/pages/home_page/bottom_nav_bar.dart';
 import 'package:sign_button/constants.dart';
 import 'package:sign_button/create_button.dart';
 

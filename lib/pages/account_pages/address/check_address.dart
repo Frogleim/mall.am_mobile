@@ -10,6 +10,10 @@ class CheckAddress extends StatefulWidget {
 class _CheckAddressState extends State<CheckAddress> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+        // body: StreamBuilder(
+
+        //   builder: ),
+        );
   }
 }

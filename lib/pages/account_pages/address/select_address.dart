@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_place/google_place.dart';
-import 'package:ontime/model/constants.dart';
+import 'package:ontime/models/address_models/add_address.dart';
+import 'package:ontime/models/constants.dart';
 import 'package:ontime/pages/account_pages/address/address.dart';
 
 class AddressPage extends StatefulWidget {
@@ -14,6 +16,12 @@ class AddressPage extends StatefulWidget {
 }
 
 class _AddressPageState extends State<AddressPage> {
+  String getEmail() {
+    User? user = FirebaseAuth.instance.currentUser;
+    String userEmail = user?.email ?? '';
+    return userEmail;
+  }
+
   final _searchAddressController = TextEditingController();
   String locationMessage = "User location is: ";
   late GooglePlace googlePlace;
@@ -109,6 +117,7 @@ class _AddressPageState extends State<AddressPage> {
     try {
       List<Placemark> placemarks =
           await placemarkFromCoordinates(latidute, longitude);
+      // ignore: unnecessary_null_comparison
       if (placemarks != null && placemarks.isNotEmpty) {
         Placemark placemark = placemarks[0];
         String address =
@@ -188,6 +197,7 @@ class _AddressPageState extends State<AddressPage> {
                               double.parse(lat), double.parse(lon))
                           .then((address) {
                         print(address);
+                        addAddress(getEmail(), address);
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
                                 MyAddress(myAddress: address)));

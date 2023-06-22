@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:image_card/image_card.dart';
-import 'package:ontime/model/products_api.dart';
+import 'package:ontime/models/products_models/products_api.dart';
 import 'package:ontime/pages/account_pages/account.dart';
-import 'package:ontime/pages/make_order.dart';
+import 'package:ontime/pages/checkout_pages/make_order.dart';
 
 class Coffee extends StatefulWidget {
   const Coffee({super.key});
