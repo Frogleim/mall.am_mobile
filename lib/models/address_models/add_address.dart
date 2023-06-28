@@ -6,7 +6,7 @@ Future<String> addAddress(
   String address,
 ) async {
   final url = Uri.parse(
-      'http://192.168.18.110/add_address/'); // Replace with your API endpoint
+      'http://192.168.18.206/add_address/'); // Replace with your API endpoint
 
   final headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
@@ -25,3 +25,9 @@ Future<String> addAddress(
   }
   return response.body;
 }
+
+// Future addAddress(String email, String address) async {
+//   await FirebaseFirestore.instance
+//       .collection('users_shipping_address')
+//       .add({"customer_email": email, "address": address});
+// }

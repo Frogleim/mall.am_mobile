@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ontime/pages/account_pages/address/select_address.dart';
+import 'package:ontime/pages/home_page/bottom_nav_bar.dart';
 
 class MyAddress extends StatefulWidget {
   final String myAddress;
@@ -17,6 +18,17 @@ class _MyAddressState extends State<MyAddress> {
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
+        actions: [
+          GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const Home()));
+              },
+              child: Icon(Icons.home)),
+          const SizedBox(
+            width: 10,
+          )
+        ],
       ),
       body: Column(
         children: [

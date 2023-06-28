@@ -24,34 +24,25 @@ class UserAddress {
   }
 }
 
-Future address(String cutomerEmail) async {
+Future<UserAddress> getAddress(String cutomerEmail) async {
   final url = Uri.parse(
-      'http://192.168.18.110/address/$cutomerEmail'); // Replace with your API endpoint
+      'http://192.168.18.206/address/$cutomerEmail'); // Replace with your API endpoint
 
-  final headers = <String, String>{
-    'Content-Type': 'application/json; charset=UTF-8',
-  };
-
-  final response = await http.get(url, headers: headers);
+  final response = await http.get(url);
   var jsonData = jsonDecode(response.body);
+  print(jsonData);
 
-  if (response.statusCode == 200) {
-    // Request successful, handle the response
-    print('Response: 1 ${response.body}');
+  if (jsonData != null) {
+    UserAddress addressData = UserAddress(
+      userEmail: jsonData['customer_email'],
+      street: jsonData['street'],
+      city: jsonData['city'],
+      zipcode: jsonData['zipcode'],
+      country: jsonData['country'],
+    );
+    print(addressData);
+    return addressData;
   } else {
-    // Request failed, handle the error
-    print('Error: ${response.statusCode}');
+    throw Exception('Failed to fetch address data');
   }
-  List<UserAddress> cartData = [];
-  for (var items in jsonData) {
-    UserAddress cartItems = UserAddress(
-        userEmail: items['customer_email'],
-        street: items['street'],
-        city: items['city'],
-        zipcode: items['zipcode'],
-        country: items['country']);
-    cartData.add(cartItems);
-  }
-  print('Response data: ${cartData}');
-  return cartData;
 }

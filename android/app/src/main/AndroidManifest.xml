@@ -6,6 +6,8 @@
         android:label="Mall.am"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyD_4Quaad6a5-ULGV0t0l8ZFZoz-b4aY1E"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

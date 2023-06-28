@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ontime/models/credit_cards_models.dart/card_information.dart';
+import 'package:ontime/models/get_user_email.dart';
 import 'package:ontime/pages/cards_pages/add_credit_card.dart';
 
 class Wallet extends StatefulWidget {
@@ -14,11 +15,7 @@ class Wallet extends StatefulWidget {
 }
 
 class _AddCardState extends State<Wallet> {
-  String getEmail() {
-    User? user = FirebaseAuth.instance.currentUser;
-    String userEmail = user?.email ?? '';
-    return userEmail;
-  }
+  late final userEmail = getEmail();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +37,7 @@ class _AddCardState extends State<Wallet> {
             height: 400,
             child: Card(
               child: FutureBuilder(
-                  future: getCardData(getEmail()),
+                  future: getCardData(userEmail),
                   builder: (context, snapshot) {
                     if (snapshot.data == null || snapshot.data.isEmpty) {
                       print(snapshot.data);
@@ -58,22 +55,12 @@ class _AddCardState extends State<Wallet> {
                           "https://assets6.lottiefiles.com/private_files/lf30_4b8xfsqj.json",
                           repeat: false,
                         ),
-                        Center(
-                            child: GestureDetector(
+                        Center(child: GestureDetector(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => const AddCard()));
                             print('add card');
                           },
-                          child: const CircleAvatar(
-                            backgroundColor: Colors.black,
-                            radius: 40,
-                            child: Icon(
-                              Icons.add,
-                              size: 35,
-                              color: Colors.white,
-                            ),
-                          ),
                         ))
                       ]);
                     } else {

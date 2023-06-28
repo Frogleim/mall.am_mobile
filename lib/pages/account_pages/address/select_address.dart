@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_place/google_place.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ontime/models/address_models/add_address.dart';
 import 'package:ontime/models/constants.dart';
 import 'package:ontime/pages/account_pages/address/address.dart';
@@ -141,6 +142,11 @@ class _AddressPageState extends State<AddressPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Lottie.network(
+              "https://assets4.lottiefiles.com/packages/lf20_ear4bofg.json",
+              repeat: true,
+            ),
+            const Divider(),
             Form(
                 child: Padding(
               padding: const EdgeInsets.all(defaultPadding),
@@ -254,10 +260,6 @@ class _AddressPageState extends State<AddressPage> {
                     },
                   );
                 }),
-            // SizedBox(
-            //   height: 100,
-            // ),
-            // Text('Your address: $address'),
           ],
         ),
       ),
