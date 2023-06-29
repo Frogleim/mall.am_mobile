@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:ontime/models/address_models/google_address.dart';
 
+// 093383131 armen
 class Gmaps extends StatefulWidget {
   const Gmaps({super.key});
 
@@ -14,41 +16,93 @@ class _GmapsState extends State<Gmaps> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+  TextEditingController _searchController = TextEditingController();
+
+// 40.1778779001858, 44.51263550194168
+  CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(40.1778779001858, 44.51263550194168),
     zoom: 14.4746,
   );
 
-  static final Marker _kGoogleMarker = Marker(
-      markerId: MarkerId('_KGooglePlex'),
-      infoWindow: InfoWindow(title: 'Google Plex'),
-      icon: BitmapDescriptor.defaultMarker,
-      position: LatLng(37.42796133580664, -122.085749655962));
+  Marker _kGoogleMarker = Marker(
+    markerId: MarkerId('_KGooglePlex'),
+    infoWindow: InfoWindow(title: 'Google Plex'),
+    icon: BitmapDescriptor.defaultMarker,
+    position: LatLng(40.1778779001858, 44.51263550194168),
+  );
 
-  static const CameraPosition _kLake = CameraPosition(
+  CameraPosition _kLake = CameraPosition(
       bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
+      target: LatLng(40.1778779001858, 44.51263550194168),
       tilt: 59.440717697143555,
       zoom: 19.151926040649414);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
-        mapType: MapType.normal,
-        markers: {_kGoogleMarker},
-        initialCameraPosition: _kGooglePlex,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.black),
+        elevation: 1,
+        title: const Text(
+          'Add Address',
+          style: TextStyle(color: Colors.black),
+        ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goToTheLake,
-        label: const Text('To the lake!'),
-        icon: const Icon(Icons.directions_boat),
+      body: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                  child: TextFormField(
+                controller: _searchController,
+                textCapitalization: TextCapitalization.words,
+                decoration: const InputDecoration(hintText: 'Search'),
+                onChanged: (value) {
+                  print(value);
+                },
+              )),
+              IconButton(
+                  onPressed: () async {
+                    print(_searchController.text.trim());
+                    await LocationService()
+                        .getPlace(_searchController.text.trim())
+                        .then((value) {
+                      for (var items in value) {
+                        print(items.lat);
+                        print(items.lng);
+                        setState(() {
+                          double lat = items.lat;
+                          double lng = items.lng;
+
+                          _kGooglePlex = CameraPosition(
+                              target: LatLng(lat, lng), zoom: 14.4746);
+
+                          _kGoogleMarker = Marker(
+                              markerId: MarkerId('_KGooglePlex'),
+                              infoWindow: InfoWindow(title: 'Google Plex'),
+                              icon: BitmapDescriptor.defaultMarker,
+                              position: LatLng(lat, lng));
+                        });
+                      }
+                    });
+                  },
+                  icon: const Icon(Icons.search))
+            ],
+          ),
+          Expanded(
+            child: GoogleMap(
+              mapType: MapType.normal,
+              markers: {_kGoogleMarker},
+              initialCameraPosition: _kGooglePlex,
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+              },
+            ),
+          ),
+        ],
       ),
     );
-    ;
   }
 
   Future<void> _goToTheLake() async {
