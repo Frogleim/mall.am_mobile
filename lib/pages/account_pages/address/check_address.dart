@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ontime/models/address_models/get_address.dart';
 import 'package:ontime/models/get_user_email.dart';
 import 'package:ontime/pages/account_pages/address/address.dart';
+import 'package:ontime/pages/account_pages/address/gmap.dart';
 import 'package:ontime/pages/account_pages/address/select_address.dart';
 
 class CheckAddress extends StatefulWidget {
@@ -30,7 +31,7 @@ class _CheckAddressState extends State<CheckAddress> {
               ),
             );
           } else if (snapshot.hasError || snapshot.data == null) {
-            return const AddressPage();
+            return const Gmaps();
           } else if (snapshot.hasData && snapshot.data != null) {
             // Data is available
             print(snapshot.data!.street);

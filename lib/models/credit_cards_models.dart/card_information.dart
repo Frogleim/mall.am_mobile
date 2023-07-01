@@ -25,8 +25,8 @@ class CardInformation {
 }
 
 Future getCardData(String customer_email) async {
-  var response = await http.get(Uri.parse(
-      "http://192.168.18.206/check_card_information/${customer_email}"));
+  var response = await http.get(
+      Uri.http("http://192.168.18.206/get_card_information/${customer_email}"));
 
   var jsonData = jsonDecode(response.body);
 
@@ -40,7 +40,7 @@ Future getCardData(String customer_email) async {
 
   List<CardInformation> cardData = [];
   for (var items in jsonData) {
-    CardInformation card = CardInformation(
+    final card = CardInformation(
         customer_email: items['customer_email'],
         card_holder_name: items['card_holder_name'].toString(),
         card_number: items['card_number'],

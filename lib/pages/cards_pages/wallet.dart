@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +7,8 @@ import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ontime/models/credit_cards_models.dart/card_information.dart';
 import 'package:ontime/models/get_user_email.dart';
-import 'package:ontime/pages/cards_pages/add_credit_card.dart';
+import 'package:ontime/pages/cards_pages/fill_card_info.dart';
+import 'package:http/http.dart' as http;
 
 class Wallet extends StatefulWidget {
   const Wallet({super.key});
@@ -16,9 +19,28 @@ class Wallet extends StatefulWidget {
 
 class _AddCardState extends State<Wallet> {
   late final userEmail = getEmail();
+  List<CardInformation> cardData = [];
+  Future getCards(String userEmail) async {
+    var response = await http.get(
+        Uri.parse("http://192.168.18.206/get_card_information/${userEmail}"));
+    var json = jsonDecode(response.body);
+    for (var items in json) {
+      final card = CardInformation(
+          customer_email: items['customer_email'],
+          card_holder_name: items['card_holder_name'],
+          card_number: items['card_number'],
+          date: items['date'],
+          cvv: items['cvv']);
+      cardData.add(card);
+    }
+
+    print(cardData.length);
+    return cardData;
+  }
 
   @override
   Widget build(BuildContext context) {
+    getCards(userEmail);
     return Scaffold(
       body: Stack(children: [
         const Positioned(
@@ -37,9 +59,9 @@ class _AddCardState extends State<Wallet> {
             height: 400,
             child: Card(
               child: FutureBuilder(
-                  future: getCardData(userEmail),
+                  future: getCards(userEmail),
                   builder: (context, snapshot) {
-                    if (snapshot.data == null || snapshot.data.isEmpty) {
+                    if (snapshot.hasError) {
                       print(snapshot.data);
 
                       return Column(children: [
@@ -52,16 +74,9 @@ class _AddCardState extends State<Wallet> {
                           ),
                         ),
                         Lottie.network(
-                          "https://assets6.lottiefiles.com/private_files/lf30_4b8xfsqj.json",
+                          "https://assets10.lottiefiles.com/packages/lf20_0pgmwzt3.json",
                           repeat: false,
                         ),
-                        Center(child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const AddCard()));
-                            print('add card');
-                          },
-                        ))
                       ]);
                     } else {
                       return Expanded(
@@ -106,8 +121,8 @@ class _AddCardState extends State<Wallet> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => AddCard()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const FillCardInfo()));
               },
               child: const Text(
                 'Add New Card',

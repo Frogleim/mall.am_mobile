@@ -1,15 +1,38 @@
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-Future checkCardInformation(String customerEmail) async {
-  final url = Uri.parse(
-      'http://192.168.18.206/check_card_information/$customerEmail'); // Replace with your API endpoint
+class CheckCardInformation {
+  final String customer_email;
+  final String card_holder_name;
+  final String card_number;
+  final String date;
+  final String cvv;
 
-  final headers = <String, String>{
-    'Content-Type': 'application/json; charset=UTF-8',
-  };
+  CheckCardInformation(
+      {required this.customer_email,
+      required this.card_holder_name,
+      required this.card_number,
+      required this.date,
+      required this.cvv});
+  factory CheckCardInformation.fromJson(Map<String, dynamic> json) {
+    return CheckCardInformation(
+        customer_email: json['customer_email'],
+        card_holder_name: json['card_holder_name'],
+        card_number: json['card_number'],
+        date: json['date'],
+        cvv: json['cvv']);
+  }
+}
 
-  final response = await http.get(url, headers: headers);
-  print(response.body);
+Future checkCardData(String customer_email) async {
+  var response = await http.get(Uri.parse(
+      "http://192.168.18.206/check_card_information/${customer_email}"));
 
-  return response.body;
+  var jsonData = jsonDecode(response.body);
+  print(jsonData);
+  if (jsonData == 0) {
+    return true;
+  } else {
+    return false;
+  }
 }

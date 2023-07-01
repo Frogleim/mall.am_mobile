@@ -4,8 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ontime/pages/account_pages/address/check_address.dart';
-import 'package:ontime/pages/account_pages/address/gmap.dart';
-import 'package:ontime/pages/account_pages/address/select_address.dart';
+import 'package:ontime/pages/cards_pages/check_wallet.dart';
 import 'package:ontime/pages/cards_pages/wallet.dart';
 import 'package:provider/provider.dart';
 
@@ -103,7 +102,7 @@ class _AccountState extends State<Account> {
                               color: Colors.grey,
                               borderRadius: BorderRadius.circular(20)),
                           child: imageProvider.imageUrl.isEmpty
-                              ? Icon(
+                              ? const Icon(
                                   Icons.person,
                                   size: 40,
                                 )
@@ -195,8 +194,8 @@ class _AccountState extends State<Account> {
                   GestureDetector(
                     onTap: () {
                       print("Wallet");
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => Wallet()));
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CheckWallet()));
                     },
                     child: Row(
                       children: [
@@ -278,7 +277,7 @@ class _AccountState extends State<Account> {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const Gmaps()));
+                                builder: (context) => const CheckAddress()));
                           },
                           child: const Text(
                             "Shipping Address",
