@@ -1,6 +1,6 @@
-# ontime
+# Mall.am
 
-A new Flutter project.
+Online Shopping app
 
 ## Getting Started
 
