@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ontime/pages/account_pages/address/check_address.dart';
 import 'package:ontime/pages/cards_pages/check_wallet.dart';
-import 'package:ontime/pages/cards_pages/wallet.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/image_provider/image_provider.dart';

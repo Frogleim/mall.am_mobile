@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ontime/pages/account_pages/address/gmap.dart';
-import 'package:ontime/pages/account_pages/address/select_address.dart';
 import 'package:ontime/pages/home_page/bottom_nav_bar.dart';
 
 class MyAddress extends StatefulWidget {
@@ -51,7 +50,7 @@ class _MyAddressState extends State<MyAddress> {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     const SizedBox(
-                      width: 100,
+                      width: 80,
                     ),
                     CircleAvatar(
                         backgroundColor: Colors.black,

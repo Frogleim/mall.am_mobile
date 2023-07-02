@@ -24,9 +24,7 @@ class _GmapsState extends State<Gmaps> {
   late double lng;
   String? clientAddress;
 
-  TextEditingController _searchController = TextEditingController();
   Set<Marker> _markers = Set<Marker>();
-  Timer? _debounce;
   List<LatLng> polygonLatLngs = <LatLng>[];
   List<AutocompletePrediction> predictions = [];
   late FocusNode searchNode;

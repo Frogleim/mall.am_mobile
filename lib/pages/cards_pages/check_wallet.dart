@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:ontime/models/credit_cards_models.dart/check_credit_card.dart';
 import 'package:ontime/models/get_user_email.dart';
 import 'package:ontime/pages/account_pages/address/gmap.dart';
-import 'package:ontime/pages/cards_pages/fill_card_info.dart';
 import 'package:ontime/pages/cards_pages/wallet.dart';
 
 class CheckWallet extends StatefulWidget {

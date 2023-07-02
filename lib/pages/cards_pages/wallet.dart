@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:lottie/lottie.dart';
@@ -68,7 +66,7 @@ class _AddCardState extends State<Wallet> {
                         const SizedBox(
                           width: 320,
                           child: Text(
-                            "Wallet",
+                            "Error",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 25),
                           ),
@@ -81,7 +79,8 @@ class _AddCardState extends State<Wallet> {
                     } else {
                       return Expanded(
                           child: CarouselSlider(
-                        items: List.generate(snapshot.data.length, (index) {
+                        items:
+                            List.generate(snapshot.data?.length ?? 0, (index) {
                           var cardNumber = snapshot.data[index].card_number;
                           var cardHolderName =
                               snapshot.data[index].card_holder_name;

@@ -9,8 +9,6 @@ class YandexMp extends StatefulWidget {
 }
 
 class _YandexMpState extends State<YandexMp> {
-  YandexMapController? _controller;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
