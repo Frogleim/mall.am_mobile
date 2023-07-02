@@ -1,10 +1,17 @@
+import 'dart:convert';
+
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:ontime/models/brands.dart';
 import 'package:ontime/models/image_provider/image_provider.dart';
 import 'package:ontime/pages/account_pages/account.dart';
+import 'package:ontime/pages/products/check_shop.dart';
 import 'package:ontime/pages/products/coffee_house.dart';
 import 'package:ontime/pages/products/eshop_category.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,6 +23,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isStarred = false;
   bool isStarred_1 = false;
+  late Future<List<Brand>> _brandsFuture;
   String getEmail() {
     User? user = FirebaseAuth.instance.currentUser;
     String userEmail = user?.email ?? '';
@@ -29,107 +37,97 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _brandsFuture = getBrands();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ImageProvide imageProvider = Provider.of<ImageProvide>(context);
 
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          iconTheme: const IconThemeData(color: Colors.black),
-          leading: GestureDetector(
-            onTap: () {
-              // FirebaseAuth.instance.signOut();
-              print(imageProvider.imageUrl);
-            },
-            child: Icon(Icons.logout),
-          ),
-          actions: [
-            GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const Account()));
-                },
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 20,
-                  backgroundImage: NetworkImage(
-                    imageProvider.imageUrl,
-                  ),
-                )),
-            const SizedBox(
-              width: 20,
-            )
-          ],
-        ),
         body: Stack(
-          children: [
-            const Positioned(
-                top: 100,
-                left: 20,
-                child: Text(
-                  "Brands",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                )),
-            Positioned(
-                top: 150,
-                left: 20,
-                right: 20,
-                child: Stack(
-                  children: [
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const Coffee()));
-                        },
-                        child: Container(
-                          width: 400,
-                          height: 200,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black, width: 2.0),
-                            color: Colors.grey[400],
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: Image.network(
-                              'https://i.pinimg.com/564x/11/fd/4f/11fd4fec4bb73609036bd6e54311f74c.jpg', // Replace with the path to your image asset
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        )),
-                  ],
-                )),
-            Positioned(
-                top: 400,
-                left: 20,
-                right: 20,
-                child: Stack(
-                  children: [
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const ShopCategory()));
-                        },
-                        child: Container(
-                          width: 400,
-                          height: 200,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black, width: 2.0),
-                            color: Colors.grey[400],
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: Image.network(
-                              'https://i.pinimg.com/564x/08/bd/69/08bd692665c8ddd52337528a8f88a919.jpg', // Replace with the path to your image asset
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        )),
-                  ],
-                )),
-          ],
-        ));
+      children: [
+        Padding(
+            padding: const EdgeInsets.only(top: 50, left: 15),
+            child: Text(
+              'Brands',
+              style: GoogleFonts.passionOne(textStyle: TextStyle(fontSize: 33)),
+            )),
+        Divider(),
+        Padding(
+          padding: const EdgeInsets.only(top: 80),
+          child: Card(
+              child: FutureBuilder(
+            future: _brandsFuture,
+            builder: (context, snapshot) {
+              if (snapshot.data == null || snapshot.hasError) {
+                print(snapshot.error);
+                return Center(
+                  child: Container(
+                      height: 200, child: Center(child: Text("Loading"))),
+                );
+              } else {
+                return GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 8,
+                      mainAxisExtent: 176),
+                  itemBuilder: (context, index) {
+                    var brand_name = snapshot.data![index].brand_name;
+                    var brand_photo = snapshot.data![index].brand_photo;
+                    return Center(
+                      child: Container(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                            onTap: () {},
+                            child: Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    print(brand_name);
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) => CheckShop(
+                                                shop_name: brand_name)));
+                                  },
+                                  child: Container(
+                                    width: 180,
+                                    height: 150,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(
+                                            width: 2,
+                                            color: const Color.fromARGB(
+                                                255, 185, 184, 184))),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(18),
+                                      child: Image.network(
+                                        brand_photo,
+                                        height: 100,
+                                        width: 130,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+
+                                // Text(description.split(' ')),
+                              ],
+                            )),
+                      ),
+                    );
+                  },
+                  itemCount: snapshot.data!.length,
+                );
+              }
+            },
+          )),
+        )
+      ],
+    ));
   }
 }

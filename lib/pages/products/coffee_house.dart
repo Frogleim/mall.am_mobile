@@ -16,7 +16,8 @@ class _CoffeeState extends State<Coffee> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black),
         actions: [
           GestureDetector(
             onTap: () {
@@ -41,7 +42,11 @@ class _CoffeeState extends State<Coffee> {
                     height: 200, child: Center(child: Text("Loading"))),
               );
             } else {
-              return ListView.builder(
+              return GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 220),
                 itemBuilder: (context, index) {
                   var name = snapshot.data[index].name;
                   var price = snapshot.data[index].price;
@@ -49,6 +54,8 @@ class _CoffeeState extends State<Coffee> {
                   var image = snapshot.data[index].image;
                   return Center(
                     child: Container(
+                      width: 400,
+                      height: 500,
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
@@ -56,14 +63,13 @@ class _CoffeeState extends State<Coffee> {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => MakeOrder(
                                     productName: name,
-                                    productImage: image,
+                                    productImage: "https://${image}",
                                     productPrice: price,
                                     description: description,
                                     product_image_url: image,
                                   )));
                         },
                         child: FillImageCard(
-                          width: 350,
                           title: Text(
                             name,
                             style: const TextStyle(
@@ -71,7 +77,9 @@ class _CoffeeState extends State<Coffee> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15),
                           ),
-                          imageProvider: NetworkImage('https://$image'),
+                          imageProvider: NetworkImage(
+                            'https://$image',
+                          ),
                           description: Text(
                             description,
                             style: const TextStyle(color: Colors.black),
