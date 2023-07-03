@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_card/image_card.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ontime/models/products_models/products_api.dart';
 import 'package:ontime/pages/account_pages/account.dart';
 import 'package:ontime/pages/checkout_pages/make_order.dart';
@@ -38,12 +39,11 @@ class _CoffeeState extends State<Coffee> {
           builder: (context, snapshot) {
             if (snapshot.data == null) {
               return Center(
-                child: Container(
-                    height: 200, child: Center(child: Text("Loading"))),
-              );
+                  child: Lottie.network(
+                      'https://assets9.lottiefiles.com/packages/lf20_kxsd2ytq.json'));
             } else {
               return GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 5,
                     mainAxisSpacing: 220),

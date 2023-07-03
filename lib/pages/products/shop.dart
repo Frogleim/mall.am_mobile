@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ontime/models/products_models/e_shop.dart';
 import 'package:ontime/pages/cart/cart.dart';
 import 'package:ontime/pages/checkout_pages/make_order.dart';
@@ -53,9 +54,8 @@ class _EShopState extends State<EShop> {
                 builder: (context, snapshot) {
                   if (snapshot.data == null) {
                     return Center(
-                      child: Container(
-                          height: 200, child: Center(child: Text("Loading"))),
-                    );
+                        child: Lottie.network(
+                            'https://assets9.lottiefiles.com/packages/lf20_kxsd2ytq.json'));
                   } else {
                     return GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

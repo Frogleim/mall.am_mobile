@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ontime/models/products_models/check_shop.dart';
-import 'package:ontime/pages/error_page.dart';
+import 'package:ontime/pages/error_page/error_page_404.dart';
 import 'package:ontime/pages/products/coffee_house.dart';
 import 'package:ontime/pages/products/eshop_category.dart';
 import 'package:ontime/pages/products/shop.dart';
@@ -21,9 +21,9 @@ class _CheckShopState extends State<CheckShop> {
       future: checkShops(widget.shop_name as String),
       builder: (context, snapshot) {
         print(snapshot.data);
-        if (snapshot.data['type'] == 'asos') {
+        if (snapshot.data?['type'] == 'asos') {
           return Coffee();
-        } else if (snapshot.data['type'] == "mall") {
+        } else if (snapshot.data?['type'] == "mall") {
           return ShopCategory();
         } else {
           return ErrorPage();

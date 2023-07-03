@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
         rippleColor: Colors.grey[300]!,
         tabBackgroundColor: Colors.grey[100]!,
         color: Colors.black,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         tabs: const [
           GButton(
             icon: Icons.home_filled,

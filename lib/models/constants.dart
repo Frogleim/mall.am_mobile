@@ -16,3 +16,7 @@ const Color secondaryColor5LightTheme = Color(0xFFF8F8F8);
 var success = Lottie.network(
     'https://assets2.lottiefiles.com/packages/lf20_jbrw3hcz.json',
     repeat: false);
+
+var deliverySuccess = Lottie.network(
+    'https://assets5.lottiefiles.com/packages/lf20_7foh1e6l.json',
+    repeat: true);

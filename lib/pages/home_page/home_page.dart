@@ -1,17 +1,11 @@
-import 'dart:convert';
-
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ontime/models/brands.dart';
 import 'package:ontime/models/image_provider/image_provider.dart';
-import 'package:ontime/pages/account_pages/account.dart';
 import 'package:ontime/pages/products/check_shop.dart';
-import 'package:ontime/pages/products/coffee_house.dart';
-import 'package:ontime/pages/products/eshop_category.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -65,9 +59,8 @@ class _HomePageState extends State<HomePage> {
               if (snapshot.data == null || snapshot.hasError) {
                 print(snapshot.error);
                 return Center(
-                  child: Container(
-                      height: 200, child: Center(child: Text("Loading"))),
-                );
+                    child: Lottie.network(
+                        'https://assets9.lottiefiles.com/packages/lf20_kxsd2ytq.json'));
               } else {
                 return GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

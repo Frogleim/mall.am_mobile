@@ -1,5 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
+import 'package:ontime/models/constants.dart';
+import 'package:ontime/models/get_user_email.dart';
 import 'package:ontime/models/image_provider/image_provider.dart';
 import 'package:ontime/models/cart_models/cart.dart';
 import 'package:ontime/pages/checkout_pages/checkout.dart';
@@ -13,12 +16,10 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  String getEmail() {
-    User? user = FirebaseAuth.instance.currentUser;
-    String userEmail = user?.email ?? '';
-    return userEmail;
-  }
+  final String userEmail = getEmail();
+  double finalPrice = 0;
 
+  @override
   @override
   Widget build(BuildContext context) {
     ImageProvide imageProvider = Provider.of<ImageProvide>(context);
@@ -28,45 +29,30 @@ class _CartState extends State<Cart> {
           elevation: 0,
           backgroundColor: Colors.white,
           iconTheme: const IconThemeData(color: Colors.black),
-          actions: [
-            GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const Cart()));
-                },
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 20,
-                  backgroundImage: NetworkImage(
-                    imageProvider.imageUrl,
-                  ),
-                )),
-            const SizedBox(
-              width: 20,
-            )
-          ],
         ),
         body: Stack(
           children: [
-            const Positioned(
+            Positioned(
                 top: 20,
                 left: 20,
                 child: Text(
                   'My Cart',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23.5),
+                  style: GoogleFonts.passionOne(
+                      textStyle: TextStyle(fontSize: 30)),
                 )),
             Positioned(
                 top: 50,
-                child: Container(
-                  height: 500,
+                child: SizedBox(
+                  height: 450,
                   width: 400,
                   child: Card(
                     child: FutureBuilder(
-                      future: cart(getEmail()),
+                      future: cart(userEmail),
                       builder: (context, snapshot) {
                         if (snapshot.data == null || snapshot.data.isEmpty) {
-                          return const Center(
-                            child: Text("Your Cart is empty"),
+                          return Center(
+                            child: Lottie.network(
+                                'https://assets9.lottiefiles.com/packages/lf20_kxsd2ytq.json'),
                           );
                         } else {
                           return Container(
@@ -80,6 +66,16 @@ class _CartState extends State<Cart> {
                                         snapshot.data[index].product_price;
                                     var product_image =
                                         snapshot.data[index].product_image;
+                                    if (product_price.contains('\$')) {
+                                      // Symbol found, remove it
+                                      product_price =
+                                          product_price.replaceAll('\$', '');
+                                    }
+                                    double doublePrices =
+                                        double.parse(product_price);
+                                    doublePrices += doublePrices;
+                                    finalPrice = doublePrices;
+                                    print(finalPrice);
                                     return Center(
                                         child: Card(
                                       child: Column(
@@ -128,44 +124,60 @@ class _CartState extends State<Cart> {
                     ),
                   ),
                 )),
-            const Positioned(
-                bottom: 180,
-                left: 20,
-                child: Text(
-                  'Total: ',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 128, 128, 128)),
-                )),
-            const Positioned(
-                bottom: 100,
-                right: 20,
-                child: Text(
-                  '',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
-                )),
             Positioned(
-                bottom: 100,
-                left: 10,
-                right: 10,
-                child: RawMaterialButton(
-                  fillColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const Checkout()));
-                  },
-                  child: const Text(
-                    'Proceed to Checkout',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15),
-                  ),
-                ))
+                bottom: 80,
+                left: 20,
+                right: 20,
+                child: Container(
+                  decoration: const BoxDecoration(color: Colors.white),
+                  child: Column(children: [
+                    Padding(
+                      padding: EdgeInsets.only(right: 260),
+                      child: Text(
+                        'Total: ${finalPrice}',
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 128, 128, 128)),
+                      ),
+                    ),
+                    const Positioned(
+                        bottom: 100,
+                        right: 20,
+                        child: Text(
+                          '',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 23),
+                        )),
+                    RawMaterialButton(
+                      fillColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 100),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: deliverySuccess,
+                                content: Text(
+                                  'Your order approved!',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              );
+                            });
+                      },
+                      child: const Text(
+                        'Proceed to Checkout',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15),
+                      ),
+                    )
+                  ]),
+                )),
           ],
         ));
   }
