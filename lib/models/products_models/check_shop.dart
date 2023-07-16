@@ -3,7 +3,7 @@ import 'dart:convert';
 
 Future checkShops(String shop_name) async {
   var response =
-      await http.get(Uri.parse("http://192.168.18.206/check_shop/$shop_name"));
+      await http.get(Uri.parse("http://16.171.132.175/check_shop/$shop_name"));
   var jsonData = jsonDecode(response.body);
   return jsonData;
 }

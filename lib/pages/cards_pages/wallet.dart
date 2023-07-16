@@ -20,7 +20,7 @@ class _AddCardState extends State<Wallet> {
   List<CardInformation> cardData = [];
   Future getCards(String userEmail) async {
     var response = await http.get(
-        Uri.parse("http://192.168.18.206/get_card_information/${userEmail}"));
+        Uri.parse("http://16.171.132.175/get_card_information/${userEmail}"));
     var json = jsonDecode(response.body);
     for (var items in json) {
       final card = CardInformation(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:ontime/models/cart_models/remove_cart.dart';
 import 'package:ontime/models/constants.dart';
 import 'package:ontime/models/get_user_email.dart';
 import 'package:ontime/models/image_provider/image_provider.dart';
@@ -49,10 +50,16 @@ class _CartState extends State<Cart> {
                     child: FutureBuilder(
                       future: cart(userEmail),
                       builder: (context, snapshot) {
-                        if (snapshot.data == null || snapshot.data.isEmpty) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return Center(
                             child: Lottie.network(
                                 'https://assets9.lottiefiles.com/packages/lf20_kxsd2ytq.json'),
+                          );
+                        } else if (snapshot.data == null ||
+                            snapshot.data.isEmpty) {
+                          return Center(
+                            child: Text("You cart is empty"),
                           );
                         } else {
                           return Container(
@@ -155,18 +162,22 @@ class _CartState extends State<Cart> {
                           vertical: 20, horizontal: 100),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
-                      onPressed: () {
+                      onPressed: () async {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: deliverySuccess,
-                                content: Text(
+                                content: const Text(
                                   'Your order approved!',
                                   style: TextStyle(fontSize: 20),
                                 ),
                               );
-                            });
+                            }).then((value) async {
+                          removeToCart(userEmail);
+                          await Future.delayed(Duration(milliseconds: 500));
+                          setState(() {});
+                        });
                       },
                       child: const Text(
                         'Proceed to Checkout',

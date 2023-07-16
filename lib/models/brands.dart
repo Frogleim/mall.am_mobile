@@ -16,7 +16,7 @@ class Brand {
 List<Brand> cardData = [];
 
 Future<List<Brand>> getBrands() async {
-  var response = await http.get(Uri.parse("http://192.168.18.206/brands"));
+  var response = await http.get(Uri.parse("http://16.171.132.175/brands"));
   var jsonData = jsonDecode(response.body);
   for (var items in jsonData) {
     final brands = Brand(
