@@ -26,7 +26,7 @@ class UserAddress {
 
 Future<UserAddress> getAddress(String cutomerEmail) async {
   final url = Uri.parse(
-      'http://16.171.132.175/address/$cutomerEmail'); // Replace with your API endpoint
+      'http://172.27.144.1/address/$cutomerEmail'); // Replace with your API endpoint
 
   final response = await http.get(url);
   var jsonData = jsonDecode(response.body);

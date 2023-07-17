@@ -6,7 +6,6 @@ import 'package:ontime/models/constants.dart';
 import 'package:ontime/models/get_user_email.dart';
 import 'package:ontime/models/image_provider/image_provider.dart';
 import 'package:ontime/models/cart_models/cart.dart';
-import 'package:ontime/pages/checkout_pages/checkout.dart';
 import 'package:provider/provider.dart';
 
 class Cart extends StatefulWidget {
@@ -18,6 +17,7 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
   final String userEmail = getEmail();
+  double totalFinalPrice = 0.0;
   double finalPrice = 0;
 
   @override
@@ -78,11 +78,12 @@ class _CartState extends State<Cart> {
                                       product_price =
                                           product_price.replaceAll('\$', '');
                                     }
-                                    double doublePrices =
-                                        double.parse(product_price);
-                                    doublePrices += doublePrices;
-                                    finalPrice = doublePrices;
+                                    // print(product_price);
+                                    finalPrice = double.parse(product_price);
                                     print(finalPrice);
+                                    totalFinalPrice +=
+                                        finalPrice; // Add the current product's final price to the total
+
                                     return Center(
                                         child: Card(
                                       child: Column(
@@ -139,10 +140,10 @@ class _CartState extends State<Cart> {
                   decoration: const BoxDecoration(color: Colors.white),
                   child: Column(children: [
                     Padding(
-                      padding: EdgeInsets.only(right: 260),
+                      padding: const EdgeInsets.only(right: 260),
                       child: Text(
-                        'Total: ${finalPrice}',
-                        style: TextStyle(
+                        'Total: ${totalFinalPrice}',
+                        style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 128, 128, 128)),

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 Future<String> addToCart(String cutomerEmail, String productName,
     String productPrice, String product_image_url, String count) async {
   final url = Uri.parse(
-      'http://16.171.132.175/add_to_cart'); // Replace with your API endpoint
+      'http://172.27.144.1/add_to_cart'); // Replace with your API endpoint
 
   final headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',

@@ -25,7 +25,7 @@ class Cart {
 
 Future cart(String cutomerEmail) async {
   final url = Uri.parse(
-      'http://16.171.132.175/cart/$cutomerEmail'); // Replace with your API endpoint
+      'http://172.27.144.1/cart/$cutomerEmail'); // Replace with your API endpoint
 
   final headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',

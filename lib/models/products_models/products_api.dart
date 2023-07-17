@@ -26,7 +26,7 @@ class Coffee {
 }
 
 Future getCoffeeData() async {
-  var response = await http.get(Uri.parse("http://16.171.132.175/clothes"));
+  var response = await http.get(Uri.parse("http://172.27.144.1/clothes"));
 
   var jsonData = jsonDecode(response.body);
 

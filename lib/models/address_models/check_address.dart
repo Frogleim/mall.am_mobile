@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:ontime/models/address_models/get_address.dart';
 
 Future<void> checkAddress(String customerEmail) async {
-  final url = Uri.parse('http://16.171.132.175/address/$customerEmail');
+  final url = Uri.parse('http://172.27.144.1/address/$customerEmail');
   final headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
   };
