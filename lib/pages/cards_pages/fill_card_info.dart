@@ -11,10 +11,10 @@ class FillCardInfo extends StatefulWidget {
   const FillCardInfo({super.key});
 
   @override
-  State<FillCardInfo> createState() => _AddCardState();
+  State<FillCardInfo> createState() => _FillCardInfoState();
 }
 
-class _AddCardState extends State<FillCardInfo> {
+class _FillCardInfoState extends State<FillCardInfo> {
   String cardNumber = '';
   String expiryDate = '';
   String cardHolderName = '';

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -7,6 +9,7 @@ import 'package:ontime/models/get_user_email.dart';
 import 'package:ontime/models/image_provider/image_provider.dart';
 import 'package:ontime/models/cart_models/cart.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class Cart extends StatefulWidget {
   const Cart({super.key});
@@ -19,12 +22,12 @@ class _CartState extends State<Cart> {
   final String userEmail = getEmail();
   double totalFinalPrice = 0.0;
   double finalPrice = 0;
+  late int itemCount;
+  List<int> counts = [];
 
-  @override
   @override
   Widget build(BuildContext context) {
     ImageProvide imageProvider = Provider.of<ImageProvide>(context);
-
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -58,6 +61,7 @@ class _CartState extends State<Cart> {
                           );
                         } else if (snapshot.data == null ||
                             snapshot.data.isEmpty) {
+                          print(snapshot.data);
                           return Center(
                             child: Text("You cart is empty"),
                           );
@@ -72,7 +76,9 @@ class _CartState extends State<Cart> {
                                     var product_price =
                                         snapshot.data[index].product_price;
                                     var product_image =
-                                        snapshot.data[index].product_image;
+                                        snapshot.data[index].product_image_url;
+                                    var count = snapshot.data[index].count;
+                                    var cartItem = snapshot.data[index];
                                     if (product_price.contains('\$')) {
                                       // Symbol found, remove it
                                       product_price =
@@ -114,6 +120,29 @@ class _CartState extends State<Cart> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
                                             children: [
+                                              IconButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      if (count > 1) {
+                                                        cartItem
+                                                            .decrementCount();
+                                                      }
+                                                      print(count);
+                                                    });
+                                                  },
+                                                  icon:
+                                                      const Icon(Icons.remove)),
+                                              Text(cartItem.count.toString()),
+                                              IconButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      cartItem.incrementCount();
+                                                    });
+                                                  },
+                                                  icon: const Icon(Icons.add)),
+                                              const SizedBox(
+                                                width: 20,
+                                              ),
                                               GestureDetector(
                                                 onTap: () {
                                                   print('Trash');

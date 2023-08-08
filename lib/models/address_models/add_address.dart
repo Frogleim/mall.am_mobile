@@ -6,7 +6,7 @@ Future<String> addAddress(
   String address,
 ) async {
   final url = Uri.parse(
-      'http://172.27.144.1/add_address/'); // Replace with your API endpoint
+      'http://172.25.160.1/add_address/'); // Replace with your API endpoint
 
   final headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lottie/lottie.dart';
+import 'package:ontime/auth/sign_up.dart';
 import 'package:ontime/pages/home_page/bottom_nav_bar.dart';
 import 'package:sign_button/constants.dart';
 import 'package:sign_button/create_button.dart';
@@ -152,6 +153,8 @@ class _LoginState extends State<Login> {
                       child: const Text("Forgot Password?"),
                       onTap: () {
                         print("Forgot password");
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => SignUp()));
                       },
                     ),
                     const SizedBox(

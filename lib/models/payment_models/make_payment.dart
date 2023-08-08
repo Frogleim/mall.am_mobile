@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 Future<void> makePayment(String productName, String productPrice) async {
   final url = Uri.parse(
-      'http://172.27.144.1/make_order'); // Replace with your API endpoint
+      'http://172.25.160.1/make_order'); // Replace with your API endpoint
 
   final headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',

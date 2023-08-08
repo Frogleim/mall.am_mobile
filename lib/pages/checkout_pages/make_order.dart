@@ -62,12 +62,11 @@ class _MakeOrderState extends State<MakeOrder>
     showDialog(
       context: context,
       barrierDismissible:
-          false, // Prevent dismissing the dialog by tapping outside
+          true, // Prevent dismissing the dialog by tapping outside
       builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(
-            color: Colors.black,
-          ),
+        return AlertDialog(
+          title: Lottie.network(
+              'https://lottie.host/f2ef9b84-6098-4283-99c5-0f175d658fa2/5R9QDsNLdC.json'),
         );
       },
     );
@@ -75,8 +74,7 @@ class _MakeOrderState extends State<MakeOrder>
     try {
       await addToCart(getEmail(), widget.productName, widget.productPrice,
           widget.productImage, itemCount.toString());
-      Navigator.pop(
-          context); // Close the loading dialog after addToCart is completed
+      // Close the loading dialog after addToCart is completed
     } catch (e) {
       print(e);
       showDialog(
@@ -234,7 +232,7 @@ class _MakeOrderState extends State<MakeOrder>
                 bottom: 50,
                 left: 20,
                 child: Text(
-                  '\$${widget.productPrice}',
+                  widget.productPrice,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 30),
                 )),
