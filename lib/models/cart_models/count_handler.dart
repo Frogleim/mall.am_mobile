@@ -1,17 +1,28 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
-Future<String> addToCart(
+class CountHandler {
+  String userEmail;
+  String command;
+  int count;
+  String productName;
+
+  CountHandler(
+      {required this.userEmail,
+      required this.command,
+      required this.count,
+      required this.productName});
+}
+
+Future<String> changeCount(
   String cutomerEmail,
-  String productName,
-  String shopName,
+  String command,
   int count,
-  String productImage,
-  String productPrice,
-  String productTotalPrice,
+  String productName,
 ) async {
   final url = Uri.parse(
-      'http://172.25.160.1/add_to_cart'); // Replace with your API endpoint
+      'http://172.25.160.1/change_count'); // Replace with your API endpoint
 
   final headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
@@ -19,12 +30,9 @@ Future<String> addToCart(
 
   final body = jsonEncode({
     'customer_email': cutomerEmail,
-    'product_name': productName,
-    'shop_name': shopName,
+    'command': command,
     'count': count,
-    'product_image_url': productImage,
-    'product_price': productPrice,
-    'product_total_price': productTotalPrice,
+    'product_name': productName,
   });
 
   final response = await http.post(url, headers: headers, body: body);

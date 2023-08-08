@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ontime/models/cart_models/add_to_cart.dart';
+import 'package:ontime/models/cart_models/count_handler.dart';
 import 'package:ontime/pages/cart/cart.dart';
 
 class MakeOrder extends StatefulWidget {
@@ -11,13 +12,14 @@ class MakeOrder extends StatefulWidget {
   final String productPrice;
   final String description;
   final String product_image_url;
-  const MakeOrder(
-      {super.key,
-      required this.productName,
-      required this.productImage,
-      required this.productPrice,
-      required this.description,
-      required this.product_image_url});
+  const MakeOrder({
+    super.key,
+    required this.productName,
+    required this.productImage,
+    required this.productPrice,
+    required this.description,
+    required this.product_image_url,
+  });
 
   @override
   State<MakeOrder> createState() => _MakeOrderState();
@@ -72,8 +74,17 @@ class _MakeOrderState extends State<MakeOrder>
     );
 
     try {
-      await addToCart(getEmail(), widget.productName, widget.productPrice,
-          widget.productImage, itemCount.toString());
+      var totalPrice = double.parse(widget.productPrice) * itemCount;
+      print(totalPrice);
+      await addToCart(
+        getEmail(),
+        widget.productName,
+        'mall',
+        itemCount,
+        widget.productImage,
+        widget.productPrice,
+        totalPrice.toString(),
+      );
       // Close the loading dialog after addToCart is completed
     } catch (e) {
       print(e);
@@ -154,11 +165,10 @@ class _MakeOrderState extends State<MakeOrder>
                       ),
                       IconButton(
                           onPressed: () {
-                            setState(() {
-                              if (itemCount > 1) {
-                                itemCount--;
-                              }
-                            });
+                            if (itemCount > 1) {
+                              itemCount--;
+                              var command = 'down';
+                            }
                           },
                           icon: const Icon(
                             Icons.remove,
@@ -170,9 +180,9 @@ class _MakeOrderState extends State<MakeOrder>
                       ),
                       IconButton(
                           onPressed: () {
-                            setState(() {
-                              itemCount++;
-                            });
+                            var command = 'up';
+                            changeCount(getEmail(), command, itemCount,
+                                widget.productName);
                           },
                           icon: const Icon(
                             Icons.add,

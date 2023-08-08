@@ -25,6 +25,12 @@ class _CartState extends State<Cart> {
   late int itemCount;
   List<int> counts = [];
 
+  void removeFromCart(String email, String product_name) {
+    setState(() {
+      removeToCart(email, product_name);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     ImageProvide imageProvider = Provider.of<ImageProvide>(context);
@@ -72,12 +78,15 @@ class _CartState extends State<Cart> {
                                   shrinkWrap: true,
                                   itemBuilder: (context, index) {
                                     var product_name =
-                                        snapshot.data[index].product_name;
+                                        snapshot.data[index].productName;
                                     var product_price =
-                                        snapshot.data[index].product_price;
+                                        snapshot.data[index].productPrice;
                                     var product_image =
-                                        snapshot.data[index].product_image_url;
+                                        snapshot.data[index].productImage;
+                                    print(product_image);
                                     var count = snapshot.data[index].count;
+                                    var totalPrice =
+                                        snapshot.data[index].productTotalPrice;
                                     var cartItem = snapshot.data[index];
                                     if (product_price.contains('\$')) {
                                       // Symbol found, remove it
@@ -85,10 +94,7 @@ class _CartState extends State<Cart> {
                                           product_price.replaceAll('\$', '');
                                     }
                                     // print(product_price);
-                                    finalPrice = double.parse(product_price);
-                                    print(finalPrice);
-                                    totalFinalPrice +=
-                                        finalPrice; // Add the current product's final price to the total
+                                    finalPrice += double.parse(totalPrice);
 
                                     return Center(
                                         child: Card(
@@ -146,6 +152,8 @@ class _CartState extends State<Cart> {
                                               GestureDetector(
                                                 onTap: () {
                                                   print('Trash');
+                                                  removeFromCart(
+                                                      userEmail, product_name);
                                                 },
                                                 child: Icon(Icons.delete),
                                               )
@@ -171,7 +179,7 @@ class _CartState extends State<Cart> {
                     Padding(
                       padding: const EdgeInsets.only(right: 260),
                       child: Text(
-                        'Total: ${totalFinalPrice}',
+                        'Total: ${finalPrice}',
                         style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -204,7 +212,6 @@ class _CartState extends State<Cart> {
                                 ),
                               );
                             }).then((value) async {
-                          removeToCart(userEmail);
                           await Future.delayed(Duration(milliseconds: 500));
                           setState(() {});
                         });

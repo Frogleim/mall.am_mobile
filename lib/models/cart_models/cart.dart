@@ -3,16 +3,22 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class UserCart {
-  String product_name;
-  String product_price;
-  String product_image_url;
+  String userEmail;
+  String productName;
+  String shopName;
   int count;
+  String productImage;
+  String productPrice;
+  String productTotalPrice;
 
   UserCart(
-      {required this.product_name,
-      required this.product_price,
-      required this.product_image_url,
-      required this.count});
+      {required this.userEmail,
+      required this.productName,
+      required this.shopName,
+      required this.count,
+      required this.productImage,
+      required this.productPrice,
+      required this.productTotalPrice});
 
   void incrementCount() {
     count++;
@@ -22,14 +28,6 @@ class UserCart {
     if (count > 1) {
       count--;
     }
-  }
-
-  factory UserCart.fromJson(Map<String, dynamic> json) {
-    return UserCart(
-        product_name: json['product_name'],
-        product_price: json['product_price'],
-        product_image_url: json['product_image_url'],
-        count: json['count']);
   }
 }
 
@@ -52,12 +50,15 @@ Future cart(String cutomerEmail) async {
     print('Error: ${response.statusCode}');
   }
   List<UserCart> cartData = [];
-  for (var items in jsonData) {
+  for (var items in jsonData['Message']) {
     UserCart cartItems = UserCart(
-        product_name: items['product_name'],
-        product_price: items['product_price'],
-        product_image_url: items['product_image_url'],
-        count: items['count']);
+        userEmail: items[1],
+        productName: items[2],
+        shopName: items[3],
+        count: items[4],
+        productImage: items[5],
+        productPrice: items[6],
+        productTotalPrice: items[7]);
     cartData.add(cartItems);
   }
   print(cartData.length);
