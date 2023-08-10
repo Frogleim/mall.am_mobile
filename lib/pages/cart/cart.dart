@@ -1,14 +1,16 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:ontime/models/address_models/get_address.dart';
+import 'package:ontime/models/cart_models/count_handler.dart';
 import 'package:ontime/models/cart_models/remove_cart.dart';
 import 'package:ontime/models/constants.dart';
 import 'package:ontime/models/get_user_email.dart';
-import 'package:ontime/models/image_provider/image_provider.dart';
 import 'package:ontime/models/cart_models/cart.dart';
-import 'package:provider/provider.dart';
+import 'package:sliding_up_panel2/sliding_up_panel2.dart';
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 class Cart extends StatefulWidget {
@@ -20,10 +22,12 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
   final String userEmail = getEmail();
-  double totalFinalPrice = 0.0;
-  double finalPrice = 0;
   late int itemCount;
   List<int> counts = [];
+  bool isCheckedCreditCard = false;
+  bool isCheckedCash = false;
+  bool isCheckedLoan = false;
+  var _totalPrice;
 
   void removeFromCart(String email, String product_name) {
     setState(() {
@@ -32,8 +36,29 @@ class _CartState extends State<Cart> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // Call the totalPrice function in initState
+    totalPrice(userEmail);
+  }
+
+  Future<void> totalPrice(String userEmail) async {
+    final url = Uri.parse('http://172.21.96.1/total_price/$userEmail');
+
+    final headers = <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    };
+
+    final response = await http.get(url, headers: headers);
+    var jsonData = jsonDecode(response.body);
+
+    setState(() {
+      _totalPrice = jsonData.toString(); // Update the _totalPrice state
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    ImageProvide imageProvider = Provider.of<ImageProvide>(context);
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -68,7 +93,7 @@ class _CartState extends State<Cart> {
                         } else if (snapshot.data == null ||
                             snapshot.data.isEmpty) {
                           print(snapshot.data);
-                          return Center(
+                          return const Center(
                             child: Text("You cart is empty"),
                           );
                         } else {
@@ -88,13 +113,6 @@ class _CartState extends State<Cart> {
                                     var totalPrice =
                                         snapshot.data[index].productTotalPrice;
                                     var cartItem = snapshot.data[index];
-                                    if (product_price.contains('\$')) {
-                                      // Symbol found, remove it
-                                      product_price =
-                                          product_price.replaceAll('\$', '');
-                                    }
-                                    // print(product_price);
-                                    finalPrice += double.parse(totalPrice);
 
                                     return Center(
                                         child: Card(
@@ -126,26 +144,8 @@ class _CartState extends State<Cart> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
                                             children: [
-                                              IconButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      if (count > 1) {
-                                                        cartItem
-                                                            .decrementCount();
-                                                      }
-                                                      print(count);
-                                                    });
-                                                  },
-                                                  icon:
-                                                      const Icon(Icons.remove)),
-                                              Text(cartItem.count.toString()),
-                                              IconButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      cartItem.incrementCount();
-                                                    });
-                                                  },
-                                                  icon: const Icon(Icons.add)),
+                                              Text(
+                                                  'X${cartItem.count.toString()}'),
                                               const SizedBox(
                                                 width: 20,
                                               ),
@@ -171,60 +171,149 @@ class _CartState extends State<Cart> {
                 )),
             Positioned(
                 bottom: 80,
-                left: 20,
-                right: 20,
-                child: Container(
-                  decoration: const BoxDecoration(color: Colors.white),
-                  child: Column(children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 260),
-                      child: Text(
-                        'Total: ${finalPrice}',
-                        style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 128, 128, 128)),
+                left: 10,
+                right: 10,
+                child: SlidingBox(
+                  body: Column(
+                    children: [
+                      const SizedBox(
+                        height: 10,
                       ),
-                    ),
-                    const Positioned(
-                        bottom: 100,
-                        right: 20,
+                      Center(
                         child: Text(
-                          '',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 23),
-                        )),
-                    RawMaterialButton(
-                      fillColor: Colors.black,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 100),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      onPressed: () async {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: deliverySuccess,
-                                content: const Text(
-                                  'Your order approved!',
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              );
-                            }).then((value) async {
-                          await Future.delayed(Duration(milliseconds: 500));
-                          setState(() {});
-                        });
-                      },
-                      child: const Text(
-                        'Proceed to Checkout',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15),
+                          'CheckOut',
+                          style: GoogleFonts.passionOne(
+                              textStyle: const TextStyle(fontSize: 20)),
+                        ),
                       ),
-                    )
-                  ]),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      Column(
+                        children: [
+                          Card(),
+                          const SizedBox(
+                            width: 40,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.credit_card),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                const Text('Pay with Credit card'),
+                                const SizedBox(
+                                  width: 113,
+                                ),
+                                Checkbox(
+                                    activeColor: Colors.black,
+                                    checkColor: Colors.white,
+                                    value: isCheckedCreditCard,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isCheckedCreditCard = value!;
+                                      });
+                                    })
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.attach_money),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                const Text('Pay with Cash'),
+                                const SizedBox(
+                                  width: 150,
+                                ),
+                                Checkbox(
+                                    activeColor: Colors.black,
+                                    checkColor: Colors.white,
+                                    value: isCheckedCash,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isCheckedCash = value!;
+                                      });
+                                    })
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 40,
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.watch_later_outlined),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                const Text('Pay with Loan'),
+                                const SizedBox(
+                                  width: 150,
+                                ),
+                                Checkbox(
+                                    activeColor: Colors.black,
+                                    checkColor: Colors.white,
+                                    value: isCheckedLoan,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        isCheckedLoan = value!;
+                                      });
+                                    }),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          RawMaterialButton(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 140),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)),
+                            onPressed: () async {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: deliverySuccess,
+                                      content: const Text(
+                                        'Your order approved!',
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                    );
+                                  }).then((value) async {
+                                await Future.delayed(
+                                    Duration(milliseconds: 500));
+                                setState(() {
+                                  removeAllCart(userEmail);
+                                });
+                              });
+                            },
+                            fillColor: Colors.black,
+                            child: Text(
+                              'Pay $_totalPrice',
+                              style: GoogleFonts.passionOne(
+                                  textStyle: const TextStyle(
+                                      color: Colors.white, fontSize: 23)),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  minHeight: 60,
                 )),
           ],
         ));

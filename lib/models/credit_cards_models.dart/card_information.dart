@@ -26,7 +26,7 @@ class CardInformation {
 
 Future getCardData(String customer_email) async {
   var response = await http.get(
-      Uri.http("http://172.25.160.1/get_card_information/${customer_email}"));
+      Uri.http("http://172.21.96.1/get_card_information/${customer_email}"));
 
   var jsonData = jsonDecode(response.body);
 

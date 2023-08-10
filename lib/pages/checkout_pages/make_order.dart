@@ -165,10 +165,11 @@ class _MakeOrderState extends State<MakeOrder>
                       ),
                       IconButton(
                           onPressed: () {
-                            if (itemCount > 1) {
-                              itemCount--;
-                              var command = 'down';
-                            }
+                            setState(() {
+                              if (itemCount > 1) {
+                                itemCount--;
+                              }
+                            });
                           },
                           icon: const Icon(
                             Icons.remove,
@@ -180,9 +181,9 @@ class _MakeOrderState extends State<MakeOrder>
                       ),
                       IconButton(
                           onPressed: () {
-                            var command = 'up';
-                            changeCount(getEmail(), command, itemCount,
-                                widget.productName);
+                            setState(() {
+                              itemCount++;
+                            });
                           },
                           icon: const Icon(
                             Icons.add,

@@ -366,6 +366,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.1"
+  flutter_sliding_box:
+    dependency: "direct main"
+    description:
+      name: flutter_sliding_box
+      sha256: c952053bd3996b96893a44b59430c024bc1bbe56902323c72cb2e660c1977238
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   flutter_stripe:
     dependency: "direct main"
     description:
@@ -965,6 +973,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0+1"
+  sliding_up_panel2:
+    dependency: "direct main"
+    description:
+      name: sliding_up_panel2
+      sha256: "7c2aac81c03e74fcd070799c5e2011f1c5de7026bd22a76164e81e23a49f2bdb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.0+1"
   smooth_page_indicator:
     dependency: "direct main"
     description:
@@ -1126,5 +1142,5 @@ packages:
     source: hosted
     version: "3.3.0"
 sdks:
-  dart: ">=3.0.0 <4.0.0"
+  dart: ">=3.0.1 <4.0.0"
   flutter: ">=3.10.0"

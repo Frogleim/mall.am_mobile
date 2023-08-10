@@ -25,8 +25,8 @@ class CheckCardInformation {
 }
 
 Future checkCardData(String customer_email) async {
-  var response = await http.get(Uri.parse(
-      "http://172.25.160.1/check_card_information/${customer_email}"));
+  var response = await http.get(
+      Uri.parse("http://172.21.96.1/check_card_information/${customer_email}"));
 
   var jsonData = jsonDecode(response.body);
   print(jsonData);

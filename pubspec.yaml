@@ -42,7 +42,6 @@ dependencies:
   vertical_picker: ^0.0.1
   flutter_stripe: ^9.2.1
   flutter_credit_card: ^3.0.6
-  sliding_up_panel: ^2.0.0+1
   flutter_rating_bar: ^4.0.1
   lottie: ^2.4.0
   progress_state_button: ^1.0.4
@@ -64,6 +63,9 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  sliding_up_panel2: ^3.3.0+1
+  flutter_sliding_box: ^1.1.0
+  sliding_up_panel: ^2.0.0+1
 
 dev_dependencies:
   flutter_test:

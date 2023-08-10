@@ -110,13 +110,28 @@ class _SignUpState extends State<SignUp> {
               height: 30,
             ),
             RePasswordTextField(),
-            ElevatedButton(
-              onPressed: () {
-                _registerUser();
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Home()));
-              },
-              child: Text('Register'),
+            Container(
+              padding: const EdgeInsets.all(25),
+              margin: const EdgeInsets.symmetric(horizontal: 25),
+              width: double.infinity,
+              child: RawMaterialButton(
+                onPressed: () {
+                  _registerUser();
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Home()));
+                },
+                fillColor: Colors.black,
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+                child: const Text(
+                  "Login",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15),
+                ),
+              ),
             ),
           ],
         ),

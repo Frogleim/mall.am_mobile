@@ -8,8 +8,8 @@ class UserCart {
   String shopName;
   int count;
   String productImage;
-  String productPrice;
-  String productTotalPrice;
+  double productPrice;
+  double productTotalPrice;
 
   UserCart(
       {required this.userEmail,
@@ -19,21 +19,11 @@ class UserCart {
       required this.productImage,
       required this.productPrice,
       required this.productTotalPrice});
-
-  void incrementCount() {
-    count++;
-  }
-
-  void decrementCount() {
-    if (count > 1) {
-      count--;
-    }
-  }
 }
 
 Future cart(String cutomerEmail) async {
   final url = Uri.parse(
-      'http://172.25.160.1/cart/$cutomerEmail'); // Replace with your API endpoint
+      'http://172.21.96.1/cart/$cutomerEmail'); // Replace with your API endpoint
 
   final headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
@@ -63,4 +53,17 @@ Future cart(String cutomerEmail) async {
   }
   print(cartData.length);
   return cartData;
+}
+
+Future totalPrice(String userEmail) async {
+  final url = Uri.parse('http://172.21.96.1/total_price/$userEmail');
+
+  final headers = <String, String>{
+    'Content-Type': 'application/json; charset=UTF-8',
+  };
+
+  final response = await http.get(url, headers: headers);
+  var jsonData = jsonDecode(response.body);
+  print(jsonData);
+  return response.body;
 }

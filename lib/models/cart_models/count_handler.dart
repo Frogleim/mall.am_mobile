@@ -15,14 +15,14 @@ class CountHandler {
       required this.productName});
 }
 
-Future<String> changeCount(
+Future<String> changeCounts(
   String cutomerEmail,
   String command,
   int count,
   String productName,
 ) async {
   final url = Uri.parse(
-      'http://172.25.160.1/change_count'); // Replace with your API endpoint
+      'http://172.21.96.1/change_count'); // Replace with your API endpoint
 
   final headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',

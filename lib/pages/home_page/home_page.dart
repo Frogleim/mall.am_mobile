@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchBrands() async {
-    final response = await http.get(Uri.parse('http://172.25.160.1/brands/'));
+    final response = await http.get(Uri.parse('http://172.21.96.1/brands/'));
 
     if (response.statusCode == 200) {
       setState(() {
